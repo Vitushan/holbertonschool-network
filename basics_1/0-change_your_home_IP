@@ -1,24 +1,17 @@
-#!/usr/bin/env bash
+#!/bin/bash
+# Script Updated ip on ubuntu
 
-if [[ $EUID -ne 0 ]]; then
-  echo "Ce script doit être exécuté avec sudo ou en tant que root."
-  exit 1
-fi
 
 HOSTS_FILE="/etc/hosts"
-BACKUP_FILE="/etc/hosts.bak.$(date +%Y%m%d%H%M%S)"
+BACKUP_FILE="/etc/hosts.bak.$(date +%F_%T)"
+sudo cp $HOSTS_FILE $BACKUP_FILE
+echo "Backup of /etc/hosts completed: $BACKUP_FILE"
 
-cp "$HOSTS_FILE" "$BACKUP_FILE"
-echo "Sauvegarde du fichier hosts dans $BACKUP_FILE"
+sudo sed -i '/localhost/d' $HOSTS_FILE
+sudo sed -i '/facebook.com/d' $HOSTS_FILE
 
-set_host() {
-  local ip="$1"
-  local hostname="$2"
-  
-  sed -i "/[[:space:]]$hostname$/d" "$HOSTS_FILE"
-  
-  echo -e "$ip\t$hostname" >> "$HOSTS_FILE"
-}
+echo "127.0.0.2   localhost" | sudo tee -a $HOSTS_FILE
+echo "8.8.8.8     facebook.com" | sudo tee -a $HOSTS_FILE
 
-set_host "127.0.0.2" "localhost"
-set_host "8
+echo "/etc/hosts file updated:"
+cat $HOSTS_FILE
