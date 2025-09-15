@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # Script that configures localhost to 127.0.0.2 and facebook.com to 8.8.8.8
 
-cp /etc/hosts /etc/hosts.backup
-sed -i 's/127\.0\.0\.1.*localhost/127.0.0.2 localhost/' /etc/hosts
-echo "8.8.8.8 facebook.com" >> /etc/hosts
+sudo sed -i 's/^127\.0\.0\.1\s\+/127.0.0.2 /' /etc/hosts
+
+if grep -q "facebook.com" /etc/hosts; then
+    sudo sed -i 's/.*facebook\.com.*/8.8.8.8 facebook.com/' /etc/hosts
+else
+    echo "8.8.8.8 facebook.com" | sudo tee -a /etc/hosts > /dev/null
+fi
