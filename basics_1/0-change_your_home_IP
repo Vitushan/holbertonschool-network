@@ -2,7 +2,7 @@
 # 0-change_your_home_IP
 # Script to change localhost and facebook.com entries in /etc/hosts on Ubuntu
 
-# Check if script is run as root
+
 if [[ $EUID -ne 0 ]]; then
   echo "This script must be run as root (use sudo)."
   exit 1
@@ -15,17 +15,12 @@ BACKUP_FILE="/etc/hosts.bak.$(date +%Y-%m-%d_%H-%M-%S)"
 cp "$HOSTS_FILE" "$BACKUP_FILE"
 echo "Backup of /etc/hosts saved to $BACKUP_FILE"
 
-# Function to add or update an entry in /etc/hosts
 update_host_entry() {
   local ip="$1"
   local name="$2"
-  # Remove any existing entry for the hostname
-  sed -i "/[[:space:]]$name$/d" "$HOSTS_FILE"
-  # Add the new entry at the end
   echo -e "$ip\t$name" >> "$HOSTS_FILE"
 }
 
-# Update localhost and facebook.com entries
 update_host_entry "127.0.0.2" "localhost"
 update_host_entry "8.8.8.8" "facebook.com"
 
