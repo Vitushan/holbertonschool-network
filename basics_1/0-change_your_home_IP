@@ -3,8 +3,6 @@
 
 
 sudo cp /etc/hosts /etc/hosts.backup
-
-
 sudo sed -i 's/^127\.0\.0\.1\s\+/127.0.0.2 /' /etc/hosts
 
 if grep -q 'facebook.com' /etc/hosts; then
