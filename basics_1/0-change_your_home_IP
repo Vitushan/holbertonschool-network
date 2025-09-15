@@ -5,14 +5,11 @@
 HOSTS_FILE="/etc/hosts"
 BACKUP_FILE="/etc/hosts.bak.$(date +%F_%T)"
 
-# Backup /etc/hosts
 sudo cp "$HOSTS_FILE" "$BACKUP_FILE"
 echo "Backup of /etc/hosts saved to $BACKUP_FILE"
 
-# Remove old entries if exist
 sudo sed -i '/localhost/d' "$HOSTS_FILE"
 sudo sed -i '/facebook.com/d' "$HOSTS_FILE"
 
-# Add new entries
 echo "127.0.0.2   localhost" | sudo tee -a "$HOSTS_FILE" > /dev/null
 echo "8.8.8.8     facebook.com" | sudo tee -a "$HOSTS_FILE" > /dev/null
