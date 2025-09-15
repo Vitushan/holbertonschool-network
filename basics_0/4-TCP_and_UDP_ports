@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 # Script that displays listening TCP/UDP ports with PID/Program
 
-# Display active internet connections (only servers) with PID/Program
-sudo ss -tulnp
+echo "Active Internet connections (only servers)"
+sudo ss -tulnp | awk 'NR==1 || $1 ~ /^(tcp|udp)/ {print}'
+
+echo "Active UNIX domain sockets (only servers)"
+sudo ss -xlp | awk 'NR==1 || $1 == "unix" {print}'
+# for macbook is the command : lsof -i -n -p | grep LISTEN
