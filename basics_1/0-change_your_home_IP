@@ -1,4 +1,5 @@
 #!/bin/env bash
+# Script that change localhost to
 
 sudo sed -i '' '/localhost/d' /etc/hosts
 sudo sed -i '' '/facebook.com/d' /etc/hosts
