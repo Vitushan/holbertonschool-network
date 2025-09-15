@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 # Script that displays listening TCP/UDP ports with PID/Program
 
-sudo netstat -tulnp | grep LISTEN
+# Display active internet connections (only servers) with PID/Program
+sudo ss -tulnp
