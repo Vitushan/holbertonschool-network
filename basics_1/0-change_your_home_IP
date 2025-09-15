@@ -1,19 +1,24 @@
-#!/bin/bash
-# This script updates /etc/hosts to redirect localhost and facebook.com
+#!/usr/bin/env bash
 
-# Backup the original hosts file
-sudo cp /etc/hosts /etc/hosts.bak
+if [[ $EUID -ne 0 ]]; then
+  echo "Ce script doit être exécuté avec sudo ou en tant que root."
+  exit 1
+fi
 
-# Remove existing entries for localhost and facebook.com
-sudo sed -i '' '/localhost/d' /etc/hosts
-sudo sed -i '' '/facebook.com/d' /etc/hosts
+HOSTS_FILE="/etc/hosts"
+BACKUP_FILE="/etc/hosts.bak.$(date +%Y%m%d%H%M%S)"
 
-# Add new entries
-echo "127.0.0.2 localhost" | sudo tee -a /etc/hosts > /dev/null
-echo "8.8.8.8 facebook.com" | sudo tee -a /etc/hosts > /dev/null
+cp "$HOSTS_FILE" "$BACKUP_FILE"
+echo "Sauvegarde du fichier hosts dans $BACKUP_FILE"
 
-# Confirmation messages
-echo "✅ Changes successfully applied."
-echo "📌 localhost → 127.0.0.2"
-echo "📌 facebook.com → 8.8.8.8"
-echo "⚠️ Remember to revert localhost to 127.0.0.1 if needed for system stability."
+set_host() {
+  local ip="$1"
+  local hostname="$2"
+  
+  sed -i "/[[:space:]]$hostname$/d" "$HOSTS_FILE"
+  
+  echo -e "$ip\t$hostname" >> "$HOSTS_FILE"
+}
+
+set_host "127.0.0.2" "localhost"
+set_host "8
