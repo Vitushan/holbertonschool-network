@@ -1,8 +1,4 @@
 #!/usr/bin/env bash
-# Script that displays listening TCP/UDP ports with PID/Program
+# Script that displays listening ports with PID and program name
 
-echo "Active Internet connections (only servers)"
-sudo netstat -lntup
-
-echo "Active UNIX domain sockets (only servers)"
-sudo netstat -lnp --unix
+netstat -lp
