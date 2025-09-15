@@ -2,7 +2,7 @@
 # Script that displays listening TCP/UDP ports with PID/Program
 
 echo "Active Internet connections (only servers)"
-sudo ss -tunlp | grep -E '^(Netid|tcp|udp)' 
+sudo netstat -lntup
 
 echo "Active UNIX domain sockets (only servers)"
-sudo ss -xnlp | grep -E '^(Netid|unix)'
+sudo netstat -lnp --unix
