@@ -1,0 +1,54 @@
+# Request Flow for https://www.google.com
+
+User Browser
+    |
+    v
++-----------------+
+| DNS Resolution  |
+| (www.google.com -> IP) |
++-----------------+
+    |
+    v
++-----------------+
+| TCP/IP Connection|
+| Port 443 (HTTPS) |
++-----------------+
+    |
+    v
++-----------------+
+| Encrypted Traffic |
+| (TLS/SSL)        |
++-----------------+
+    |
+    v
++-----------------+
+| Firewall        |
++-----------------+
+    |
+    v
++-----------------+
+| Load Balancer   |
+| (distributes to backend servers) |
++-----------------+
+    |       |
+    v       v
++-----------+   +-----------+
+| Web Server|   | Web Server|
+| Nginx     |   | Nginx     |
++-----------+   +-----------+
+    |               |
+    v               v
++-------------------------+
+| Application Server      |
+| Generates web page      |
++-------------------------+
+    |
+    v
++-------------------------+
+| Database Server         |
+| Responds with requested |
+| data                    |
++-------------------------+
+    |
+    v
+User Browser (Web page displayed)
